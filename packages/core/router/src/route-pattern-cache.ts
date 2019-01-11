@@ -1,5 +1,5 @@
 import pathToRegexp, { Key } from 'path-to-regexp'
-import { Route } from './types'
+import { Route } from '@web0js/types'
 
 export { Key }
 
