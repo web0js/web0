@@ -1,6 +1,6 @@
 {
   "name": "@web0js/dev",
-  "description": "Common development scripts and config files for Web0",
+  "description": "Common development commands and config files for Web0",
   "version": "0.2.0",
   "repository": "https://github.com/web0js/web0/tree/master/tools/dev",
   "bin": {
