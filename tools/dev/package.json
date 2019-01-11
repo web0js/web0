@@ -1,0 +1,40 @@
+{
+  "name": "@web0js/dev",
+  "description": "Common development scripts and config files for Web0",
+  "version": "0.2.0",
+  "repository": "https://github.com/web0js/web0/tree/master/tools/dev",
+  "bin": {
+    "web0-dev": "./lib/cli.js"
+  },
+  "scripts": {
+    "clean:all": "node ./lib/cli clean",
+    "build": "tsc",
+    "format": "node ./lib/cli format",
+    "postformat": "npm run tslint",
+    "tslint": "node ./lib/cli tslint",
+    "publish:prepare": "npm run clean:all && npm run build"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "cross-spawn": "^6.0.5",
+    "eslint": "^5.12.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-node": "^8.0.1",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "lerna": "^3.10.5",
+    "npm-which": "^3.0.1",
+    "prettier": "^1.15.3",
+    "rimraf": "^2.6.3",
+    "tslint": "^5.12.0",
+    "tslint-config-standard": "^8.0.1",
+    "typescript": "^3.2.2"
+  },
+  "devDependencies": {
+    "@types/cross-spawn": "^6.0.0",
+    "@types/node": "^10.12.18"
+  }
+}
