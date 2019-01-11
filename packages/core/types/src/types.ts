@@ -18,3 +18,9 @@ export interface Context {
   render: (page: any) => Action
   nextRoute: () => Action
 }
+
+export interface View<P> {
+  render: (page: P, container: HTMLElement, data: any, context: Context) => void
+  renderToString: (page: P, data: any, context: Context) => string
+  hydrate: (page: P, container: HTMLElement, data: any, context: Context) => void
+}

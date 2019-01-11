@@ -2,32 +2,29 @@ import express, { Express, Request, Response, NextFunction } from 'express'
 import helmet from 'helmet'
 import compression from 'compression'
 import morgan from 'morgan'
-import { Route, Context } from '@web0js/types'
+import { Route, Context, View } from '@web0js/types'
 import { Router } from '@web0js/router'
 
-export interface AppOptions {
+export interface AppOptions<V> {
+  view: View<V>
   routes: Route<Context>[]
   port: number
   host: string
 }
 
-export class App {
+export class App<V> {
   private readonly app: Express
 
-  constructor (private readonly options: AppOptions) {
-    const { routes } = options
+  constructor (private readonly options: AppOptions<V>) {
+    const { routes, view } = options
     const app = (this.app = express())
     app.use(helmet())
     app.use(compression())
     app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'))
     const router = new Router<Context>(routes)
     app.get('*', async (req: Request, res: Response, next: NextFunction) => {
-      const createContext = (
-        route: Route<Context>,
-        nextRouteIndex: number,
-        params: Record<string, string>,
-      ): Context => {
-        return {
+      const createContext = (route: Route<Context>, nextRouteIndex: number, params: Record<string, string>) => {
+        const context: Context = {
           isServer: true,
           isClient: false,
           path: req.path,
@@ -36,12 +33,14 @@ export class App {
             params,
             query: req.query,
           },
-          render: (page: any) => () => {
+          render: (page: V) => () => {
+            res.send(view.renderToString(page, {}, context))
           },
           nextRoute: () => () => {
             return router.handlePath(req.path, createContext, nextRouteIndex)
           },
         }
+        return context
       }
       try {
         await router.handlePath(req.path, createContext)
