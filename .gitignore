@@ -170,3 +170,7 @@ packages/**/lib
 
 tools/**/package-lock.json
 tools/**/lib
+
+examples/**/package-lock.json
+examples/**/lib
+examples/**/dist

@@ -3,8 +3,9 @@ import helmet from 'helmet'
 import compression from 'compression'
 import morgan from 'morgan'
 import { ServerApp, ServerAppOptions, Context } from '@web0js/web/lib/web-types'
-import { Router } from '@web0js/router'
+import { getPageData } from '@web0js/web'
 import { Route } from '@web0js/router/lib/router-types'
+import { Router } from '@web0js/router'
 
 export class ExpressServerApp<P> implements ServerApp<P> {
   private app?: Express
@@ -29,8 +30,9 @@ export class ExpressServerApp<P> implements ServerApp<P> {
             params,
             query: req.query,
           },
-          render: (page: P) => () => {
-            res.send(view.renderToString(page, {}, context))
+          render: (page: P) => async () => {
+            const data = await getPageData(page, context)
+            res.send(view.renderToString(page, data, context))
           },
           nextRoute: () => () => {
             return router.handlePath(req.path, createContext, nextRouteIndex)

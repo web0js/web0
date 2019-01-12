@@ -1,0 +1,29 @@
+{
+  "name": "@web0js/react-basic-example",
+  "private": true,
+  "repository": "https://github.com/web0js/web0/tree/master/examples/react/basic",
+  "scripts": {
+    "clean": "web0-dev clean dist",
+    "build": "webpack --config ./webpack.server.js",
+    "format": "web0-dev format",
+    "postformat": "npm run tslint && npm run eslint",
+    "tslint": "web0-dev tslint",
+    "eslint": "web0-dev eslint --ignore-pattern /dist/"
+  },
+  "dependencies": {
+    "@web0js/express": "^0.2.0",
+    "@web0js/react": "^0.2.0",
+    "@web0js/web": "^0.2.0",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0"
+  },
+  "devDependencies": {
+    "@types/react": "^16.7.18",
+    "@types/react-dom": "^16.0.11",
+    "@web0js/dev": "^0.2.0",
+    "ts-loader": "^5.3.3",
+    "webpack": "^4.28.4",
+    "webpack-cli": "^3.2.1",
+    "webpack-node-externals": "^1.7.2"
+  }
+}

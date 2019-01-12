@@ -2,6 +2,7 @@
   "name": "@web0js/web",
   "version": "0.2.0",
   "repository": "https://github.com/web0js/web0/tree/master/packages/core/web",
+  "main": "lib/index.js",
   "scripts": {
     "clean": "web0-dev clean",
     "build": "web0-dev build",
