@@ -1,8 +1,7 @@
 {
-  "name": "@web0js/router",
+  "name": "@web0js/web",
   "version": "0.2.0",
-  "repository": "https://github.com/web0js/web0/tree/master/packages/core/router",
-  "main": "lib/index.js",
+  "repository": "https://github.com/web0js/web0/tree/master/packages/core/web",
   "scripts": {
     "clean": "web0-dev clean",
     "build": "web0-dev build",
@@ -15,7 +14,7 @@
     "access": "public"
   },
   "dependencies": {
-    "path-to-regexp": "^2.4.0"
+    "@web0js/router": "^0.2.0"
   },
   "devDependencies": {
     "@web0js/dev": "^0.2.0"

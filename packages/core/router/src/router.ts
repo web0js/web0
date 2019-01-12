@@ -1,4 +1,4 @@
-import { Route } from '@web0js/types'
+import { Route } from './router-types'
 import { RoutePatternCache, RoutePattern, Key } from './route-pattern-cache'
 
 export type CreateContextFunction<C> = (route: Route<C>, nextRouteIndex: number, params: Record<string, string>) => C

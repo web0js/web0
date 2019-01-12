@@ -1,1 +1,1 @@
-export * from './react-view'
+export * from './react-client-view'

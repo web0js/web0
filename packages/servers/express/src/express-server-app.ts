@@ -2,22 +2,18 @@ import express, { Express, Request, Response, NextFunction } from 'express'
 import helmet from 'helmet'
 import compression from 'compression'
 import morgan from 'morgan'
-import { Route, Context, View } from '@web0js/types'
+import { ServerApp, ServerAppOptions, Context } from '@web0js/web/lib/web-types'
 import { Router } from '@web0js/router'
+import { Route } from '@web0js/router/lib/router-types'
 
-export interface AppOptions<V> {
-  view: View<V>
-  routes: Route<Context>[]
-  port: number
-  host: string
-}
+export class ExpressServerApp<V> implements ServerApp<V> {
+  private app?: Express
+  private options?: ServerAppOptions<V>
 
-export class App<V> {
-  private readonly app: Express
-
-  constructor (private readonly options: AppOptions<V>) {
-    const { routes, view } = options
+  setOptions (options: ServerAppOptions<V>) {
+    this.options = options
     const app = (this.app = express())
+    const { routes, view } = options
     app.use(helmet())
     app.use(compression())
     app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'))
@@ -52,9 +48,18 @@ export class App<V> {
   }
 
   async start (): Promise<void> {
-    const { port, host } = this.options
+    if (!this.app) {
+      throw new Error(`'app' is undefined`)
+    }
+    if (!this.options) {
+      throw new Error(`'options' is undefined`)
+    }
+    const {
+      app,
+      options: { port, host },
+    } = this
     return new Promise<void>((resolve) => {
-      this.app.listen(port, host, resolve)
+      app.listen(port, host, resolve)
     })
   }
 }
