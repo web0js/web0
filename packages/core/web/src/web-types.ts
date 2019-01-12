@@ -24,6 +24,7 @@ export interface ClientView<P> {
 }
 
 export interface ServerAppOptions<P> {
+  template: string
   view: ServerView<P>
   routes: Route<Context>[]
   port: number

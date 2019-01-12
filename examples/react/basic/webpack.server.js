@@ -4,7 +4,7 @@ const nodeExternals = require('webpack-node-externals')
 module.exports = {
   mode: 'development',
   target: 'node',
-  externals: [nodeExternals()],
+  externals: [nodeExternals({ modulesFromFile: true })],
   entry: './src/server.tsx',
   module: {
     rules: [

@@ -3,6 +3,7 @@ import { Context } from '@web0js/web/lib/web-types'
 import { ExpressServerApp } from '@web0js/express'
 import { ReactPageProps, ReactPage } from '@web0js/react/lib/react-types'
 import { ReactServerView } from '@web0js/react/lib/react-server-view'
+import template from 'raw-loader!./client.html'
 
 interface CommonPageData {
   message: string
@@ -56,6 +57,7 @@ const main = async (): Promise<void> => {
   const app = new ExpressServerApp<ReactPage>()
   app.setOptions({
     view: new ReactServerView(),
+    template,
     routes: [
       {
         path: '/',

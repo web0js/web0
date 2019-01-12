@@ -2,6 +2,7 @@ import express, { Express, Request, Response, NextFunction } from 'express'
 import helmet from 'helmet'
 import compression from 'compression'
 import morgan from 'morgan'
+import Handlebars from 'handlebars'
 import { ServerApp, ServerAppOptions, Context } from '@web0js/web/lib/web-types'
 import { getPageData } from '@web0js/web'
 import { Route } from '@web0js/router/lib/router-types'
@@ -14,10 +15,11 @@ export class ExpressServerApp<P> implements ServerApp<P> {
   setOptions (options: ServerAppOptions<P>) {
     this.options = options
     const app = (this.app = express())
-    const { routes, view } = options
+    const { template, view, routes } = options
     app.use(helmet())
     app.use(compression())
     app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'))
+    const renderTemplate = Handlebars.compile(template)
     const router = new Router<Context>(routes)
     app.get('*', async (req: Request, res: Response, next: NextFunction) => {
       const createContext = (route: Route<Context>, nextRouteIndex: number, params: Record<string, string>) => {
@@ -32,7 +34,11 @@ export class ExpressServerApp<P> implements ServerApp<P> {
           },
           render: (page: P) => async () => {
             const data = await getPageData(page, context)
-            res.send(view.renderToString(page, data, context))
+            res.send(
+              renderTemplate({
+                WEB0_PAGE_CONTENT: view.renderToString(page, data, context),
+              }),
+            )
           },
           nextRoute: () => () => {
             return router.handlePath(req.path, createContext, nextRouteIndex)
