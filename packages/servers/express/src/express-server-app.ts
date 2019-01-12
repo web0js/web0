@@ -6,11 +6,11 @@ import { ServerApp, ServerAppOptions, Context } from '@web0js/web/lib/web-types'
 import { Router } from '@web0js/router'
 import { Route } from '@web0js/router/lib/router-types'
 
-export class ExpressServerApp<V> implements ServerApp<V> {
+export class ExpressServerApp<P> implements ServerApp<P> {
   private app?: Express
-  private options?: ServerAppOptions<V>
+  private options?: ServerAppOptions<P>
 
-  setOptions (options: ServerAppOptions<V>) {
+  setOptions (options: ServerAppOptions<P>) {
     this.options = options
     const app = (this.app = express())
     const { routes, view } = options
@@ -29,7 +29,7 @@ export class ExpressServerApp<V> implements ServerApp<V> {
             params,
             query: req.query,
           },
-          render: (page: V) => () => {
+          render: (page: P) => () => {
             res.send(view.renderToString(page, {}, context))
           },
           nextRoute: () => () => {

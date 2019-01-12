@@ -23,14 +23,14 @@ export interface ClientView<P> {
   hydrate: (page: P, container: HTMLElement, data: any, context: Context) => void
 }
 
-export interface ServerAppOptions<V> {
-  view: ServerView<V>
+export interface ServerAppOptions<P> {
+  view: ServerView<P>
   routes: Route<Context>[]
   port: number
   host: string
 }
 
-export interface ServerApp<V> {
-  setOptions: (options: ServerAppOptions<V>) => void
+export interface ServerApp<P> {
+  setOptions: (options: ServerAppOptions<P>) => void
   start: () => Promise<void>
 }
