@@ -1,6 +1,7 @@
 import { Route, Action } from '@web0js/router/lib/router-types'
 
 export interface MatchedRoute extends Route<Context> {
+  index: number
   params: Record<string, string>
   query: Record<string, string>
 }
@@ -29,9 +30,10 @@ export interface ClientView<P> {
 }
 
 export interface ServerAppOptions<P> {
-  template: string
   view: ServerView<P>
   routes: Route<Context>[]
+  template: string
+  publicPath: string
   port: number
   host: string
 }

@@ -18,7 +18,7 @@ export class Router<C> {
         routePattern.keys.forEach((key: Key, keyIndex: number) => {
           params[key.name] = matches[keyIndex + 1]
         })
-        const context: C = createContext(route, routeIndex + 1, params)
+        const context: C = createContext(route, routeIndex, params)
         const action = await route.handler(context)
         if (action) {
           await action()

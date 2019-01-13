@@ -4,7 +4,7 @@ import compression from 'compression'
 import morgan from 'morgan'
 import Handlebars from 'handlebars'
 import { ServerApp, ServerAppOptions, Context } from '@web0js/web/lib/web-types'
-import { PAGE_PROPS, PAGE_CONTENT, getPageData } from '@web0js/web'
+import { INITIAL_DATA, PAGE_CONTENT, getPageData } from '@web0js/web'
 import { Route } from '@web0js/router/lib/router-types'
 import { Router } from '@web0js/router'
 
@@ -15,35 +15,36 @@ export class ExpressServerApp<P> implements ServerApp<P> {
   setOptions (options: ServerAppOptions<P>) {
     this.options = options
     const app = (this.app = express())
-    const { template, view, routes } = options
+    const { template, view, routes, publicPath } = options
     app.use(helmet())
     app.use(compression())
     app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'))
+    app.use('/public', express.static(publicPath))
     const renderTemplate = Handlebars.compile(template)
     const router = new Router<Context>(routes)
     app.get('*', async (req: Request, res: Response, next: NextFunction) => {
-      const createContext = (route: Route<Context>, nextRouteIndex: number, params: Record<string, string>) => {
+      const createContext = (route: Route<Context>, routeIndex: number, params: Record<string, string>) => {
         const context: Context = {
           isServer: true,
           isClient: false,
           path: req.path,
           route: {
             ...route,
+            index: routeIndex,
             params,
             query: req.query,
           },
           render: (page: P) => async () => {
             const data = await getPageData(page, context)
-            const props = { data, context }
             res.send(
               renderTemplate({
-                [PAGE_PROPS]: JSON.stringify(props),
-                [PAGE_CONTENT]: view.renderToString(page, props),
+                [INITIAL_DATA]: JSON.stringify({ data, route: context.route }),
+                [PAGE_CONTENT]: view.renderToString(page, { data, context }),
               }),
             )
           },
           nextRoute: () => () => {
-            return router.handlePath(req.path, createContext, nextRouteIndex)
+            return router.handlePath(req.path, createContext, routeIndex + 1)
           },
         }
         return context
