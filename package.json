@@ -2,7 +2,7 @@
   "name": "web0",
   "private": true,
   "scripts": {
-    "init": "npm run boot && npm run build:dev && npm run boot",
+    "init": "npm run boot && npm run build:dev && npm run boot && npm run build",
     "boot": "lerna bootstrap --hoist",
     "link": "lerna link",
     "clean": "node ./scripts/run clean",
