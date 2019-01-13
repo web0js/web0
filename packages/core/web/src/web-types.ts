@@ -14,13 +14,18 @@ export interface Context {
   nextRoute: () => Action
 }
 
+export interface PageProps<D = any> {
+  data: D
+  context: Context
+}
+
 export interface ServerView<P> {
-  renderToString: (page: P, data: any, context: Context) => string
+  renderToString: (page: P, props: PageProps) => string
 }
 
 export interface ClientView<P> {
-  render: (page: P, container: HTMLElement, data: any, context: Context) => void
-  hydrate: (page: P, container: HTMLElement, data: any, context: Context) => void
+  render: (page: P, container: HTMLElement, props: PageProps) => void
+  hydrate: (page: P, container: HTMLElement, props: PageProps) => void
 }
 
 export interface ServerAppOptions<P> {

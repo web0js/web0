@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import { Context } from '@web0js/web/lib/web-types'
+import { Context, PageProps } from '@web0js/web/lib/web-types'
 import { ExpressServerApp } from '@web0js/express'
-import { ReactPageProps, ReactPage } from '@web0js/react/lib/react-types'
+import { ReactPage } from '@web0js/react/lib/react-types'
 import { ReactServerView } from '@web0js/react/lib/react-server-view'
-import template from 'raw-loader!./client.html'
+import template from 'raw-loader!./client.hbs'
 
 interface CommonPageData {
   message: string
@@ -15,7 +15,7 @@ const getData = ({ route }: Context): Promise<CommonPageData> => {
   })
 }
 
-class WelcomePage extends Component<ReactPageProps<CommonPageData>> {
+class WelcomePage extends Component<PageProps<CommonPageData>> {
   static async getData (context: Context): Promise<CommonPageData> {
     return getData(context)
   }
@@ -27,7 +27,7 @@ class WelcomePage extends Component<ReactPageProps<CommonPageData>> {
   }
 }
 
-class HelloNamePage extends Component<ReactPageProps<CommonPageData>> {
+class HelloNamePage extends Component<PageProps<CommonPageData>> {
   static async getData (context: Context): Promise<CommonPageData> {
     return getData(context)
   }
@@ -40,7 +40,7 @@ class HelloNamePage extends Component<ReactPageProps<CommonPageData>> {
   }
 }
 
-class HelloSpecialNamePage extends Component<ReactPageProps<CommonPageData>> {
+class HelloSpecialNamePage extends Component<PageProps<CommonPageData>> {
   static async getData (context: Context): Promise<CommonPageData> {
     return getData(context)
   }

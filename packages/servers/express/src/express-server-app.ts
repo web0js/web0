@@ -4,7 +4,7 @@ import compression from 'compression'
 import morgan from 'morgan'
 import Handlebars from 'handlebars'
 import { ServerApp, ServerAppOptions, Context } from '@web0js/web/lib/web-types'
-import { getPageData } from '@web0js/web'
+import { PAGE_PROPS, PAGE_CONTENT, getPageData } from '@web0js/web'
 import { Route } from '@web0js/router/lib/router-types'
 import { Router } from '@web0js/router'
 
@@ -34,9 +34,11 @@ export class ExpressServerApp<P> implements ServerApp<P> {
           },
           render: (page: P) => async () => {
             const data = await getPageData(page, context)
+            const props = { data, context }
             res.send(
               renderTemplate({
-                WEB0_PAGE_CONTENT: view.renderToString(page, data, context),
+                [PAGE_PROPS]: JSON.stringify(props),
+                [PAGE_CONTENT]: view.renderToString(page, props),
               }),
             )
           },
