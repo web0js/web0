@@ -1,10 +1,4 @@
-import { Context } from './web-types'
-
-const prefix = 'WEB0'
-
-export const APP_CONTAINER = `${prefix}_APP_CONTAINER`
-export const INITIAL_DATA = `${prefix}_INITIAL_DATA`
-export const PAGE_CONTENT = `${prefix}_PAGE_CONTENT`
+import { Context } from './web-common-types'
 
 interface HasGetPageData {
   getPageData: (context: Context) => Promise<any>

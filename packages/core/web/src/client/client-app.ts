@@ -1,6 +1,6 @@
-import { Route } from '@web0js/router/lib/router-types'
-import { ClientView, Context } from './web-types'
-import { INITIAL_DATA } from './page'
+import { Route } from '@web0js/router'
+import { Context } from '../web-common-types'
+import { ClientView } from './web-client-types'
 
 export interface ClientAppOptions<P> {
   view: ClientView<P>
@@ -12,7 +12,7 @@ export class ClientApp<P> {
 
   async start (): Promise<void> {
     const { view, routes } = this.options
-    const { data, route } = (window as any)[INITIAL_DATA]
+    const { data, route } = (window as any).initialData
     console.log({ view, routes, data, route })
   }
 }

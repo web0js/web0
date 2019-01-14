@@ -1,14 +1,12 @@
-import { Route } from './router-types'
+import { Route, CreateContext } from './router-types'
 import { RoutePatternCache, RoutePattern, Key } from './route-pattern-cache'
-
-export type CreateContextFunction<C> = (route: Route<C>, nextRouteIndex: number, params: Record<string, string>) => C
 
 export class Router<C> {
   private readonly routePatternCache = new RoutePatternCache()
 
   constructor (private readonly routes: Route<C>[]) {}
 
-  async handlePath (path: string, createContext: CreateContextFunction<C>, startRouteIndex: number = 0): Promise<void> {
+  async handlePath (path: string, createContext: CreateContext<C>, startRouteIndex: number = 0): Promise<void> {
     for (let routeIndex = startRouteIndex; routeIndex < this.routes.length; ++routeIndex) {
       const route = this.routes[routeIndex]
       const routePattern: RoutePattern = this.routePatternCache.get(route)

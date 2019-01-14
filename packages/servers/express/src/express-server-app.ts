@@ -1,12 +1,11 @@
-import express, { Express, Request, Response, NextFunction } from 'express'
+import express, { Express } from 'express'
 import helmet from 'helmet'
 import compression from 'compression'
 import morgan from 'morgan'
-import Handlebars from 'handlebars'
-import { ServerApp, ServerAppOptions, Context } from '@web0js/web/lib/web-types'
-import { INITIAL_DATA, PAGE_CONTENT, getPageData } from '@web0js/web'
-import { Route } from '@web0js/router/lib/router-types'
+import { Context } from '@web0js/web'
+import { ServerApp, ServerAppOptions, TemplateRenderer } from '@web0js/web/lib/server'
 import { Router } from '@web0js/router'
+import { routeHandler } from './route-handler'
 
 export class ExpressServerApp<P> implements ServerApp<P> {
   private app?: Express
@@ -20,42 +19,14 @@ export class ExpressServerApp<P> implements ServerApp<P> {
     app.use(compression())
     app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'))
     app.use('/public', express.static(publicPath))
-    const renderTemplate = Handlebars.compile(template)
-    const router = new Router<Context>(routes)
-    app.get('*', async (req: Request, res: Response, next: NextFunction) => {
-      const createContext = (route: Route<Context>, routeIndex: number, params: Record<string, string>) => {
-        const context: Context = {
-          isServer: true,
-          isClient: false,
-          path: req.path,
-          route: {
-            ...route,
-            index: routeIndex,
-            params,
-            query: req.query,
-          },
-          render: (page: P) => async () => {
-            const data = await getPageData(page, context)
-            res.send(
-              renderTemplate({
-                [INITIAL_DATA]: JSON.stringify({ data, route: context.route }),
-                [PAGE_CONTENT]: view.renderToString(page, { data, context }),
-              }),
-            )
-          },
-          nextRoute: () => () => {
-            return router.handlePath(req.path, createContext, routeIndex + 1)
-          },
-        }
-        return context
-      }
-      try {
-        await router.handlePath(req.path, createContext)
-        next()
-      } catch (err) {
-        next(err)
-      }
-    })
+    app.get(
+      '*',
+      routeHandler({
+        templateRenderer: new TemplateRenderer(template),
+        view,
+        router: new Router<Context>(routes),
+      }),
+    )
   }
 
   async start (): Promise<void> {

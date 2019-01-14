@@ -1,7 +1,7 @@
 import path from 'path'
 import { ExpressServerApp } from '@web0js/express'
-import { ReactPage } from '@web0js/react/lib/react-types'
-import { ReactServerView } from '@web0js/react/lib/react-server-view'
+import { ReactPage } from '@web0js/react'
+import { ReactServerView } from '@web0js/react/lib/server'
 import { routes } from './routes'
 import template from 'raw-loader!./client.hbs'
 

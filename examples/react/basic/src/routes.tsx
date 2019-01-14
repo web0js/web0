@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { Context, PageProps } from '@web0js/web/lib/web-types'
-import { Route } from '@web0js/router/lib/router-types'
+import { Context, PageProps } from '@web0js/web'
+import { Route } from '@web0js/router'
 import { Counter } from './Counter'
 
 interface CommonPageData {

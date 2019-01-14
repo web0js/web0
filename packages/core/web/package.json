@@ -15,9 +15,11 @@
     "access": "public"
   },
   "dependencies": {
-    "@web0js/router": "^0.2.0"
+    "@web0js/router": "^0.2.0",
+    "handlebars": "^4.0.12"
   },
   "devDependencies": {
+    "@types/handlebars": "^4.0.40",
     "@web0js/dev": "^0.2.0"
   }
 }

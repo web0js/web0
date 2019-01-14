@@ -1,2 +1,2 @@
-export * from './page'
-export * from './client-app'
+export * from './web-common-types'
+export * from './get-page-data'
