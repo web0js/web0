@@ -5,6 +5,7 @@
   "scripts": {
     "clean": "web0-dev clean dist",
     "build": "npm run build:server && npm run build:client",
+    "watch": "webpack --watch --config ./webpack.server.js",
     "build:server": "webpack --config ./webpack.server.js",
     "build:client": "webpack --config ./webpack.client.js",
     "format": "web0-dev format",
@@ -24,6 +25,7 @@
     "@types/react": "^16.7.18",
     "@types/react-dom": "^16.0.11",
     "@web0js/dev": "^0.2.0",
+    "nodemon-webpack-plugin": "^4.0.7",
     "raw-loader": "^1.0.0",
     "ts-loader": "^5.3.3",
     "webpack": "^4.28.4",
