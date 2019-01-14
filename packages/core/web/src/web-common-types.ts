@@ -1,10 +1,11 @@
 import { Route, Action } from '@web0js/router'
 
-export interface MatchedRoute extends Route<Context> {
-  index: number
+export interface RequestInfo {
   params: Record<string, string>
   query: Record<string, string>
 }
+
+export interface MatchedRoute extends Route<Context>, RequestInfo {}
 
 export interface Context {
   isServer: boolean
@@ -18,4 +19,14 @@ export interface Context {
 export interface PageProps<D = any> {
   data: D
   context: Context
+}
+
+export interface InitialRoute extends RequestInfo {
+  path: string
+  routeIndex: number
+}
+
+export interface InitialData {
+  data: any
+  route: InitialRoute
 }

@@ -9,7 +9,7 @@ interface CommonPageData {
 
 const getPageData = ({ route }: Context): Promise<CommonPageData> => {
   return new Promise<CommonPageData>((resolve) => {
-    setTimeout(() => resolve({ message: `You are at route ${route.path}.` }), 1000)
+    setTimeout(() => resolve({ message: `You are at route ${route.path}.` }), 500)
   })
 }
 
@@ -38,7 +38,7 @@ class HelloNamePage extends Component<PageProps<CommonPageData>> {
     return (
       <div>
         <h2>Hi, {route.params.name}! {message}</h2>
-        <Counter initialValue={1}/>
+        <Counter initialValue={10}/>
       </div>
     )
   }
@@ -54,7 +54,7 @@ class HelloSpecialNamePage extends Component<PageProps<CommonPageData>> {
     return (
       <div>
         <h1>Hello, {route.params.specialName}! {message}</h1>
-        <Counter initialValue={2}/>
+        <Counter initialValue={20}/>
       </div>
     )
   }

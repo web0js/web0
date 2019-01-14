@@ -5,11 +5,11 @@ import { ClientView } from '@web0js/web/lib/client'
 import { ReactPage } from '../react-common-types'
 
 export class ReactClientView implements ClientView<ReactPage> {
-  render (page: ReactPage, container: HTMLElement, props: PageProps) {
+  render (page: ReactPage, container: HTMLElement | null, props: PageProps) {
     render(createElement(page, props), container)
   }
 
-  hydrate (page: ReactPage, container: HTMLElement, props: PageProps) {
+  hydrate (page: ReactPage, container: HTMLElement | null, props: PageProps) {
     hydrate(createElement(page, props), container)
   }
 }

@@ -5,7 +5,7 @@ import morgan from 'morgan'
 import { Context } from '@web0js/web'
 import { ServerApp, ServerAppOptions, TemplateRenderer } from '@web0js/web/lib/server'
 import { Router } from '@web0js/router'
-import { routeHandler } from './route-handler'
+import { routeHandler } from './express-route-handler'
 
 export class ExpressServerApp<P> implements ServerApp<P> {
   private app?: Express

@@ -3,11 +3,9 @@
 <head>
 </head>
 <body>
-  <div id="app">
-    {{{ pageContent }}}
-  </div>
+  <div id="app">{{{ pageContent }}}</div>
   <script>
-    window.initialData = {{{ initialData }}}
+    window.{{ initialDataName }} = {{{ initialData }}}
   </script>
   <script src="/public/client.js"></script>
 </body>

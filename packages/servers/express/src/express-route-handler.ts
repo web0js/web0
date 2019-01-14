@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express'
-import { Context, getPageData } from '@web0js/web'
+import { Context, RequestInfo, getPageData } from '@web0js/web'
 import { ServerView, TemplateRenderer } from '@web0js/web/lib/server'
 import { Router, Route } from '@web0js/router'
 
@@ -13,21 +13,27 @@ export const routeHandler = <P>(options: RouteHandlerOptions<P>) => {
   const { templateRenderer, view, router } = options
   return async (req: Request, res: Response, next: NextFunction) => {
     const createContext = (route: Route<Context>, routeIndex: number, params: Record<string, string>) => {
+      const requestInfo: RequestInfo = {
+        params,
+        query: req.query,
+      }
       const context: Context = {
         isServer: true,
         isClient: false,
         path: req.path,
-        route: {
-          ...route,
-          index: routeIndex,
-          params,
-          query: req.query,
-        },
+        route: { ...route, ...requestInfo },
         render: (page: P) => async () => {
           const data = await getPageData(page, context)
           res.send(
             templateRenderer.render({
-              initialData: JSON.stringify({ data, route: context.route }),
+              initialData: {
+                data,
+                route: {
+                  path: req.path,
+                  routeIndex,
+                  ...requestInfo,
+                },
+              },
               pageContent: view.renderToString(page, { data, context }),
             }),
           )
