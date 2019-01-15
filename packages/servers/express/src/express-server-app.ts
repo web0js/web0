@@ -2,10 +2,10 @@ import express, { Express } from 'express'
 import helmet from 'helmet'
 import compression from 'compression'
 import morgan from 'morgan'
-import { Context } from '@web0js/web'
+import { Context, queryParser } from '@web0js/web'
 import { ServerApp, ServerAppOptions, TemplateRenderer } from '@web0js/web/lib/server'
 import { Router } from '@web0js/router'
-import { routeHandler } from './express-route-handler'
+import { ExpressRouter } from './express-router'
 
 export class ExpressServerApp<P> implements ServerApp<P> {
   private app?: Express
@@ -15,17 +15,18 @@ export class ExpressServerApp<P> implements ServerApp<P> {
     this.options = options
     const app = (this.app = express())
     const { template, view, routes, publicPath } = options
+    app.set('query parser', queryParser)
     app.use(helmet())
     app.use(compression())
     app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'))
     app.use('/public', express.static(publicPath))
     app.get(
       '*',
-      routeHandler({
+      new ExpressRouter({
         templateRenderer: new TemplateRenderer(template),
         view,
         router: new Router<Context>(routes),
-      }),
+      }).middleware,
     )
   }
 

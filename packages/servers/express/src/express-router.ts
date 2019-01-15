@@ -1,38 +1,36 @@
 import { Request, Response, NextFunction } from 'express'
-import { Context, RequestInfo, getPageData } from '@web0js/web'
+import { Context, getPageData } from '@web0js/web'
 import { ServerView, TemplateRenderer } from '@web0js/web/lib/server'
 import { Router, Route } from '@web0js/router'
 
-export interface RouteHandlerOptions<P> {
+export interface ExpressRouterOptions<P> {
   templateRenderer: TemplateRenderer
   view: ServerView<P>
   router: Router<Context>
 }
 
-export const routeHandler = <P>(options: RouteHandlerOptions<P>) => {
-  const { templateRenderer, view, router } = options
-  return async (req: Request, res: Response, next: NextFunction) => {
+export class ExpressRouter<P> {
+  constructor (private readonly options: ExpressRouterOptions<P>) {}
+
+  middleware = async (req: Request, res: Response, next: NextFunction) => {
+    const { templateRenderer, view, router } = this.options
     const createContext = (route: Route<Context>, routeIndex: number, params: Record<string, string>) => {
-      const requestInfo: RequestInfo = {
-        params,
-        query: req.query,
-      }
       const context: Context = {
         isServer: true,
         isClient: false,
         path: req.path,
-        route: { ...route, ...requestInfo },
+        route: {
+          ...route,
+          params,
+          query: req.query,
+        },
         render: (page: P) => async () => {
           const data = await getPageData(page, context)
           res.send(
             templateRenderer.render({
               initialData: {
                 data,
-                route: {
-                  path: req.path,
-                  routeIndex,
-                  ...requestInfo,
-                },
+                matchedRouteIndex: routeIndex,
               },
               pageContent: view.renderToString(page, { data, context }),
             }),

@@ -16,10 +16,12 @@
   },
   "dependencies": {
     "@web0js/router": "^0.2.0",
-    "handlebars": "^4.0.12"
+    "handlebars": "^4.0.12",
+    "qs": "^6.6.0"
   },
   "devDependencies": {
     "@types/handlebars": "^4.0.40",
+    "@types/qs": "^6.5.1",
     "@web0js/dev": "^0.2.0"
   }
 }

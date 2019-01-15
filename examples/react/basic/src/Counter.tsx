@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 
-interface CounterProps {
+export interface CounterProps {
   initialValue: number
 }
 
-interface CounterState {
+export interface CounterState {
   value: number
 }
 
