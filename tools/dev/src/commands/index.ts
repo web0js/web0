@@ -5,6 +5,7 @@ import { eslint } from './eslint'
 import { format } from './format'
 import { run } from './run'
 import { tslint } from './tslint'
+import { watch } from './watch'
 
 const commands: { [key: string]: (argv: string[]) => Promise<number> } = {
   add,
@@ -14,6 +15,7 @@ const commands: { [key: string]: (argv: string[]) => Promise<number> } = {
   format,
   run,
   tslint,
+  watch,
 }
 
 export default commands
