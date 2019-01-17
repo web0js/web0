@@ -13,10 +13,10 @@
     "eslint": "web0-dev eslint --ignore-pattern /dist/"
   },
   "dependencies": {
+    "@web0js/core": "^0.2.0",
     "@web0js/express": "^0.2.0",
     "@web0js/react": "^0.2.0",
     "@web0js/router": "^0.2.0",
-    "@web0js/web": "^0.2.0",
     "react": "^16.7.0",
     "react-dom": "^16.7.0"
   },

@@ -19,7 +19,8 @@
     "react-dom": ">=16"
   },
   "dependencies": {
-    "@web0js/web": "^0.2.0"
+    "@web0js/core": "^0.2.0",
+    "@web0js/router": "^0.2.0"
   },
   "devDependencies": {
     "@types/react": "^16.7.18",

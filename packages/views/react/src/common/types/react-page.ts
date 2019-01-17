@@ -1,4 +1,4 @@
 import { ComponentClass } from 'react'
-import { PageProps } from '@web0js/web'
+import { PageProps } from '@web0js/router'
 
 export type ReactPage = ComponentClass<PageProps>

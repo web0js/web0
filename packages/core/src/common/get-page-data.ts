@@ -1,4 +1,4 @@
-import { Context } from './web-common-types'
+import { Context } from '@web0js/router'
 
 interface HasGetPageData {
   getPageData: (context: Context) => Promise<any>

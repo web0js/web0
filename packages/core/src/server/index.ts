@@ -1,2 +1,2 @@
-export * from './web-server-types'
+export * from './types'
 export * from './template-renderer'

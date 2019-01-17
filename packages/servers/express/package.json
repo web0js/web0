@@ -15,8 +15,8 @@
     "access": "public"
   },
   "dependencies": {
+    "@web0js/core": "^0.2.0",
     "@web0js/router": "^0.2.0",
-    "@web0js/web": "^0.2.0",
     "compression": "^1.7.3",
     "express": "^4.16.4",
     "helmet": "^3.15.0",

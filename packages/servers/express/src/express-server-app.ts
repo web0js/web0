@@ -2,9 +2,8 @@ import express, { Express } from 'express'
 import helmet from 'helmet'
 import compression from 'compression'
 import morgan from 'morgan'
-import { Context, queryParser } from '@web0js/web'
-import { ServerApp, ServerAppOptions, TemplateRenderer } from '@web0js/web/lib/server'
-import { Router } from '@web0js/router'
+import { queryParser } from '@web0js/core/lib/common'
+import { ServerApp, ServerAppOptions, TemplateRenderer } from '@web0js/core/lib/server'
 import { ExpressRouter } from './express-router'
 
 export class ExpressServerApp<P> implements ServerApp<P> {
@@ -25,8 +24,8 @@ export class ExpressServerApp<P> implements ServerApp<P> {
       new ExpressRouter({
         templateRenderer: new TemplateRenderer(template),
         view,
-        router: new Router<Context>(routes),
-      }).middleware,
+        routes,
+      }).middleware(),
     )
   }
 

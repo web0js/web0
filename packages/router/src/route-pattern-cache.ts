@@ -1,5 +1,5 @@
 import pathToRegexp, { Key } from 'path-to-regexp'
-import { Route } from './router-types'
+import { Route } from './types'
 
 export { Key }
 
@@ -11,7 +11,7 @@ export interface RoutePattern {
 export class RoutePatternCache {
   private readonly routePatternByPath: Record<string, RoutePattern> = {}
 
-  get<C> (route: Route<C>): RoutePattern {
+  get (route: Route): RoutePattern {
     const cachedRoutePattern: RoutePattern = this.routePatternByPath[route.path]
     if (cachedRoutePattern) {
       return cachedRoutePattern
