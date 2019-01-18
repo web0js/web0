@@ -1,11 +1,11 @@
-import { Route } from '@web0js/router'
-import { Context, InitialData } from '../web-common-types'
-import { ClientView } from './web-client-types'
+import { Route, Context } from '@web0js/router'
+import { InitialData } from '../common'
+import { ClientView } from './types'
 import { ClientRouter } from './client-router'
 
 export interface ClientAppOptions<P> {
   view: ClientView<P>
-  routes: Route<Context>[]
+  routes: Route[]
 }
 
 export class ClientApp<P> {

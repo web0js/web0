@@ -1,13 +1,9 @@
 import { Route } from '@web0js/router'
-import { PageProps, Context } from '../web-common-types'
-
-export interface ServerView<P> {
-  renderToString: (page: P, props: PageProps) => string
-}
+import { ServerView } from './server-view'
 
 export interface ServerAppOptions<P> {
   view: ServerView<P>
-  routes: Route<Context>[]
+  routes: Route[]
   template: string
   publicPath: string
   port: number

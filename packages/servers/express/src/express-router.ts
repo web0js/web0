@@ -1,52 +1,56 @@
 import { Request, Response, NextFunction } from 'express'
-import { Context, getPageData } from '@web0js/web'
-import { ServerView, TemplateRenderer } from '@web0js/web/lib/server'
-import { Router, Route } from '@web0js/router'
+import { Route, Context } from '@web0js/router'
+import { BaseRouter } from '@web0js/router/lib/base-router'
+import { getPageData } from '@web0js/core/lib/common'
+import { ServerView, TemplateRenderer } from '@web0js/core/lib/server'
 
 export interface ExpressRouterOptions<P> {
   templateRenderer: TemplateRenderer
   view: ServerView<P>
-  router: Router<Context>
+  routes: Route[]
 }
 
 export class ExpressRouter<P> {
-  constructor (private readonly options: ExpressRouterOptions<P>) {}
+  private readonly baseRouter: BaseRouter
 
-  middleware = async (req: Request, res: Response, next: NextFunction) => {
-    const { templateRenderer, view, router } = this.options
-    const createContext = (route: Route<Context>, routeIndex: number, params: Record<string, string>) => {
-      const context: Context = {
-        isServer: true,
-        isClient: false,
-        path: req.path,
-        route: {
-          ...route,
+  constructor (private readonly options: ExpressRouterOptions<P>) {
+    this.baseRouter = new BaseRouter(options.routes)
+  }
+
+  middleware () {
+    return async (req: Request, res: Response, next: NextFunction) => {
+      const { templateRenderer, view } = this.options
+      const createContext = (route: Route, routeIndex: number, params: any) => {
+        const context: Context = {
+          isServer: true,
+          isClient: false,
+          path: req.path,
           params,
           query: req.query,
-        },
-        render: (page: P) => async () => {
-          const data = await getPageData(page, context)
-          res.send(
-            templateRenderer.render({
-              initialData: {
-                data,
-                matchedRouteIndex: routeIndex,
-              },
-              pageContent: view.renderToString(page, { data, context }),
-            }),
-          )
-        },
-        nextRoute: () => () => {
-          return router.handlePath(req.path, createContext, routeIndex + 1)
-        },
+          render: (page: P) => async () => {
+            const data = await getPageData(page, context)
+            res.send(
+              templateRenderer.render({
+                initialData: {
+                  data,
+                  matchedRouteIndex: routeIndex,
+                },
+                pageContent: view.renderToString(page, { data, context }),
+              }),
+            )
+          },
+          nextRoute: () => () => {
+            return this.baseRouter.handlePath(req.path, createContext, routeIndex + 1)
+          },
+        }
+        return context
       }
-      return context
-    }
-    try {
-      await router.handlePath(req.path, createContext)
-      next()
-    } catch (err) {
-      next(err)
+      try {
+        await this.baseRouter.handlePath(req.path, createContext)
+        next()
+      } catch (err) {
+        next(err)
+      }
     }
   }
 }

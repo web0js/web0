@@ -1,5 +1,5 @@
 import Handlebars from 'handlebars'
-import { InitialData } from '../web-common-types'
+import { InitialData } from '../common'
 
 export interface TemplateRenderOptions {
   initialData: InitialData
