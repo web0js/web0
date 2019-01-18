@@ -9,6 +9,7 @@
     "clean:all": "npm run clean && node ./scripts/run clean:all && lerna clean --yes",
     "build:dev": "cd ./tools/dev && npm run build",
     "build": "node ./scripts/run build",
+    "watch": "node ./scripts/watch build",
     "format": "node ./scripts/run format",
     "publish:try": "node ./scripts/run publish:prepare && lerna version --no-push",
     "publish:now": "node ./scripts/run publish:prepare && lerna publish"
