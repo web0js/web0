@@ -22,15 +22,16 @@ const findPackages = (dirPath: string, scriptName: string): string[] => {
       return
     }
     const childPath = path.join(dirPath, childName)
-    if (fs.statSync(childPath).isDirectory()) {
-      if (isPackage(childPath)) {
-        if (shouldWatch(childPath, scriptName)) {
-          packages.push(childPath)
-        }
-      } else {
-        packages.push(...findPackages(childPath, scriptName))
-      }
+    if (!fs.statSync(childPath).isDirectory()) {
+      return
     }
+    if (isPackage(childPath)) {
+      if (shouldWatch(childPath, scriptName)) {
+        packages.push(childPath)
+      }
+      return
+    }
+    packages.push(...findPackages(childPath, scriptName))
   })
   return packages
 }
