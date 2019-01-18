@@ -18,7 +18,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@types/chokidar": "^1.7.5",
+    "chokidar": "^2.0.4",
     "cross-spawn": "^6.0.5",
     "eslint": "^5.12.0",
     "eslint-config-standard": "^12.0.0",
@@ -35,6 +35,7 @@
     "typescript": "^3.2.2"
   },
   "devDependencies": {
+    "@types/chokidar": "^1.7.5",
     "@types/cross-spawn": "^6.0.0",
     "@types/node": "^10.12.18"
   }

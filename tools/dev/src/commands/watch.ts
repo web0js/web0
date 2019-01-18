@@ -1,37 +1,55 @@
-import chokidar from 'chokidar'
 import path from 'path'
 import fs from 'fs'
+import chokidar from 'chokidar'
 import spawn from 'cross-spawn'
 
-export const watch = (argv: string[]): Promise<number> => {
-  return new Promise<number>((resolve, reject) => {
-    const isPackage = (pkg: string): boolean => {
-      if (fs.existsSync(path.join(pkg, 'src'))) {
-        if (fs.existsSync(path.join(pkg, 'package.json'))) {
-          const pkgJson = require(path.join(pkg, 'package.json'))
-          return pkgJson.scripts && pkgJson.scripts[argv[0]]
+const isPackage = (dirPath: string): boolean => {
+  return fs.existsSync(path.join(dirPath, 'package.json'))
+}
+
+const shouldWatch = (pkgPath: string, scriptName: string): boolean => {
+  if (!fs.existsSync(path.join(pkgPath, 'src'))) {
+    return false
+  }
+  const pkgJson = require(path.join(pkgPath, 'package.json'))
+  return pkgJson.scripts && pkgJson.scripts[scriptName]
+}
+
+const findPackages = (dirPath: string, scriptName: string): string[] => {
+  const packages: string[] = []
+  fs.readdirSync(dirPath).forEach((childName) => {
+    if (childName === 'node_modules') {
+      return
+    }
+    const childPath = path.join(dirPath, childName)
+    if (fs.statSync(childPath).isDirectory()) {
+      if (isPackage(childPath)) {
+        if (shouldWatch(childPath, scriptName)) {
+          packages.push(childPath)
         }
-      }
-      return false
-    }
-    const scanPackages = (dir: string): string[] => {
-      const results = []
-      if (isPackage(dir)) {
-        results.push(path.join(dir, 'src'))
       } else {
-        fs.readdirSync(dir).forEach((entity) => {
-          if (entity !== 'node_modules' && fs.statSync(path.join(dir, entity)).isDirectory()) {
-            results.push(...scanPackages(path.join(dir, entity)))
-          }
-        })
+        packages.push(...findPackages(childPath, scriptName))
       }
-      return results
     }
-    const packages = scanPackages(process.cwd())
-    const watcher = chokidar.watch(packages)
-    watcher.on('change', (filePath) => {
-      spawn('npm', ['run', 'build'], { cwd: filePath.split('src')[0], stdio: ['pipe', process.stdout, process.stderr] })
-    })
-    watcher.on('error', reject)
   })
+  return packages
+}
+
+export const watch = async (argv: string[]): Promise<number> => {
+  const scriptName = argv[0]
+  const rootPath = process.cwd()
+  const packages = findPackages(rootPath, scriptName)
+  console.log(`Watching the following packages to run '${scriptName}' script:`)
+  console.log()
+  packages.forEach((pkgPath) => {
+    console.log(`- ${path.relative(rootPath, pkgPath)}`)
+  })
+  console.log()
+  const watcher = chokidar.watch(packages.map((pkgPath) => path.join(pkgPath, 'src')))
+  watcher.on('change', (filePath) => {
+    const pkgPath = filePath.split('src')[0]
+    spawn('npm', ['run', 'build'], { cwd: pkgPath, stdio: ['pipe', process.stdout, process.stderr] })
+  })
+  watcher.on('error', console.error)
+  return 0
 }
