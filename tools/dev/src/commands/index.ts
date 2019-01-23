@@ -6,8 +6,9 @@ import { format } from './format'
 import { run } from './run'
 import { tslint } from './tslint'
 import { watch } from './watch'
+import { checkdeps } from './checkdeps'
 
-const commands: { [key: string]: (argv: string[]) => Promise<number> } = {
+const commands: Record<string, (argv: string[]) => Promise<number>> = {
   add,
   build,
   clean,
@@ -16,6 +17,7 @@ const commands: { [key: string]: (argv: string[]) => Promise<number> } = {
   run,
   tslint,
   watch,
+  checkdeps,
 }
 
 export default commands
