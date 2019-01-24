@@ -41,16 +41,14 @@ const getOrCreateDependencyInfo = (dependencyInfos: DependencyInfo[], dependency
   return dependencyInfo
 }
 
-const findDependencies = (dependencyInfos: DependencyInfo[], pkgPath: string) => {
+const findDependencies = (dependencyInfos: DependencyInfo[], internalPackage: Record<string, boolean>, pkgPath: string) => {
   const pkgJson = require(path.join(pkgPath, 'package.json'))
+  internalPackage[pkgJson.name] = true
   const dependencyConfigs = [pkgJson.dependencies, pkgJson.devDependencies]
   dependencyConfigs
     .filter((dependencyConfig) => !!dependencyConfig)
     .forEach((dependencyConfig) => {
       Object.keys(dependencyConfig).forEach((dependencyName: string) => {
-        if (dependencyName.indexOf('@web0js/') === 0) {
-          return
-        }
         const dependencyVersion = dependencyConfig[dependencyName]
         const dependencyInfo: DependencyInfo = getOrCreateDependencyInfo(dependencyInfos, dependencyName)
         dependencyInfo.updateVersion(dependencyVersion, pkgJson.name)
@@ -94,9 +92,10 @@ export const checkdeps = async (argv: string[]): Promise<number> => {
     packages.push(rootPath)
   }
   const dependencyInfos: DependencyInfo[] = []
-  packages.forEach((pkgPath) => findDependencies(dependencyInfos, pkgPath))
-  const sortedDependencyInfos = [...dependencyInfos]
-  sortedDependencyInfos.sort((a, b) => a.name.localeCompare(b.name))
-  await checkOutdated(sortedDependencyInfos)
+  const internalPackage: Record<string, boolean> = {}
+  packages.forEach((pkgPath) => findDependencies(dependencyInfos, internalPackage, pkgPath))
+  const dependencyInfosToCheck = dependencyInfos.filter((dependencyInfo) => !internalPackage[dependencyInfo.name])
+  dependencyInfosToCheck.sort((a, b) => a.name.localeCompare(b.name))
+  await checkOutdated(dependencyInfosToCheck)
   return 0
 }
