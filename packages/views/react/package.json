@@ -23,7 +23,7 @@
     "@web0js/router": "^0.2.0"
   },
   "devDependencies": {
-    "@types/react": "^16.7.18",
+    "@types/react": "^16.7.20",
     "@types/react-dom": "^16.0.11",
     "@web0js/dev": "^0.2.0",
     "react": "^16.7.0",
