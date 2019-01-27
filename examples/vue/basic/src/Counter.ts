@@ -8,8 +8,8 @@ export class Counter extends Vue {
   render (createElement: CreateElement) {
     return createElement('div', [
       createElement('p', ` Value: ${this.value}`),
-      createElement('button', { attrs: { type: 'button' }, on: { click: () => this.value++  } }, 'Increase'),
-      createElement('button', { attrs: { type: 'button' }, on: { click: () => this.value-- } }, 'Decrease'),
+      createElement('button', { attrs: { type: 'button' }, on: { click: this.increase } }, 'Increase'),
+      createElement('button', { attrs: { type: 'button' }, on: { click: this.decrease } }, 'Decrease'),
     ])
   }
   increase () {
