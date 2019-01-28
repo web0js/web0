@@ -1,7 +1,8 @@
 {
   "extends": "./node_modules/@web0js/dev/tsconfig.json",
   "compilerOptions": {
-    "outDir": "lib"
+    "outDir": "lib",
+    "jsx": "react"
   },
   "include": [
     "src/**/*"

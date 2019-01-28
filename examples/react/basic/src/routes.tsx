@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from '@web0js/react'
 import { Route, Context, PageProps } from '@web0js/router'
 import { Counter } from './Counter'
 
@@ -22,6 +23,8 @@ class WelcomePage extends Component<PageProps<CommonPageData>> {
       <div>
         <h3>Welcome! {message}</h3>
         <Counter/>
+        <div><Link to='/Stranger'>Try Stranger</Link></div>
+        <div><Link to='/World'>Try World</Link></div>
       </div>
     )
   }
@@ -38,6 +41,7 @@ class HelloNamePage extends Component<PageProps<CommonPageData>> {
       <div>
         <h2>Hi, {params.name}! {message}</h2>
         <Counter initialValue={10}/>
+        <div><Link to='/'>Back</Link></div>
       </div>
     )
   }
@@ -54,6 +58,7 @@ class HelloSpecialNamePage extends Component<PageProps<CommonPageData>> {
       <div>
         <h1>Hello, {params.specialName}! {message}</h1>
         <Counter initialValue={20}/>
+        <div><Link to='/'>Back</Link></div>
       </div>
     )
   }
