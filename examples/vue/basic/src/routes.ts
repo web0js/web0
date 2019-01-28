@@ -1,6 +1,6 @@
 import Vue, { CreateElement } from 'vue'
 import Component from 'vue-class-component'
-import { Route, Context, PageProps } from '@web0js/router'
+import { Route, Context } from '@web0js/router'
 import { Counter } from './Counter'
 
 interface CommonPageData {

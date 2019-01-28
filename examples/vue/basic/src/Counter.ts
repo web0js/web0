@@ -1,5 +1,6 @@
 import Vue, { CreateElement } from 'vue'
-import { Component, Prop } from 'vue-property-decorator'
+import Component from 'vue-class-component'
+import { Prop } from 'vue-property-decorator'
 
 @Component
 export class Counter extends Vue {
