@@ -18,14 +18,14 @@
     "@web0js/router": "^0.2.0",
     "@web0js/vue": "^0.2.0",
     "vue": "^2.5.22",
+    "vue-class-component": "^6.3.2",
+    "vue-property-decorator": "^7.3.0",
     "vue-server-renderer": "^2.5.22"
   },
   "devDependencies": {
     "@web0js/dev": "^0.2.0",
     "raw-loader": "^1.0.0",
     "ts-loader": "^5.3.3",
-    "vue-class-component": "^6.3.2",
-    "vue-property-decorator": "^7.3.0",
     "webpack": "^4.28.4",
     "webpack-cli": "^3.2.1",
     "webpack-node-externals": "^1.7.2"
