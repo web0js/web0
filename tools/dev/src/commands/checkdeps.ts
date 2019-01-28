@@ -41,7 +41,11 @@ const getOrCreateDependencyInfo = (dependencyInfos: DependencyInfo[], dependency
   return dependencyInfo
 }
 
-const findDependencies = (dependencyInfos: DependencyInfo[], internalPackage: Record<string, boolean>, pkgPath: string) => {
+const findDependencies = (
+  dependencyInfos: DependencyInfo[],
+  internalPackage: Record<string, boolean>,
+  pkgPath: string,
+) => {
   const pkgJson = require(path.join(pkgPath, 'package.json'))
   internalPackage[pkgJson.name] = true
   const dependencyConfigs = [pkgJson.dependencies, pkgJson.devDependencies]
