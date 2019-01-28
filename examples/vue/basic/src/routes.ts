@@ -24,10 +24,7 @@ class WelcomePage extends Vue {
   }
   render (createElement: CreateElement) {
     const { message } = this.$data.data
-    return createElement('div', [
-      createElement('h3', `Welcome! ${message}`),
-      createElement('Counter'),
-    ])
+    return createElement('div', [createElement('h3', `Welcome! ${message}`), createElement('Counter')])
   }
 }
 

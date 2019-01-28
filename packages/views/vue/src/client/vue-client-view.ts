@@ -14,7 +14,7 @@ export class VueClientView implements ClientView<VuePage> {
           data: props.data,
           context: props.context,
         }
-      }
+      },
     })
     const vue = new wrapperPage(page)
     vue.$mount(container)

@@ -12,7 +12,7 @@ export class VueServerView implements ServerView<VuePage> {
           data: props.data,
           context: props.context,
         }
-      }
+      },
     })
     return createRenderer().renderToString(new wrapperPage(page))
   }
