@@ -14,11 +14,10 @@ export class VueClientView implements ClientView<VuePage> {
           data: props.data,
           context: props.context,
         }
-      },
-      el: container
+      }
     })
     const vue = new wrapperPage(page)
-    vue.$mount()
+    vue.$mount(container)
   }
 
   hydrate (page: VuePage, container: HTMLElement | null, props: PageProps) {
