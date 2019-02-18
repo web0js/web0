@@ -35,7 +35,7 @@ export class ExpressRouter<P> {
                   data,
                   matchedRouteIndex: routeIndex,
                 },
-                pageContent: view.renderToString(page, { data, context }),
+                pageContent: await view.renderToString(page, { data, context }),
               }),
             )
           },

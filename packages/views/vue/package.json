@@ -1,0 +1,30 @@
+{
+  "name": "@web0js/vue",
+  "version": "0.2.0",
+  "repository": "https://github.com/web0js/web0/tree/master/packages/views/vue",
+  "main": "lib/index.js",
+  "scripts": {
+    "clean": "web0-dev clean",
+    "build": "web0-dev build",
+    "format": "web0-dev format",
+    "postformat": "npm run tslint",
+    "tslint": "web0-dev tslint",
+    "publish:prepare": "npm run clean && npm run build"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+    "vue": ">=2",
+    "vue-server-renderer": ">=2"
+  },
+  "dependencies": {
+    "@web0js/core": "^0.2.0",
+    "@web0js/router": "^0.2.0"
+  },
+  "devDependencies": {
+    "@web0js/dev": "^0.2.0",
+    "vue": "^2.5.22",
+    "vue-server-renderer": "^2.5.22"
+  }
+}
